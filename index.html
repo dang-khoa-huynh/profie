@@ -8,15 +8,332 @@
   <!-- Google Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css"/>
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        /* Hiệu ứng nền */
+        .background-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Container chính */
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .title {
+            color: white;
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+            animation: pulse 3s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.7); }
+            50% { text-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 0 35px rgba(255, 255, 255, 0.5); }
+            100% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.7); }
+        }
+        
+        /* Menu ứng dụng */
+        .app-menu {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+        
+        .app-item {
+            width: 220px;
+            height: 220px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .app-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+        
+        .app-item:hover .app-card {
+            transform: rotateY(180deg);
+        }
+        
+        .app-front, .app-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .app-front {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+        }
+        
+        .app-back {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            transform: rotateY(180deg);
+            justify-content: space-around;
+        }
+        
+        .app-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        
+        .app-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .app-description {
+            font-size: 1.1rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+        
+        .launch-btn {
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .launch-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Hiệu ứng đặc biệt cho từng ứng dụng */
+        .hangman .app-front {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+        }
+
+        .image-editor .app-front {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .piano .app-front {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .drawing .app-front {
+            background: linear-gradient(135deg, #828282, #9C9C9C);
+        }
+        
+        .game .app-front {
+            background: linear-gradient(135deg, #696969, #B5B5B5);
+        }
+        
+        .hangman .app-back {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+        }
+        
+        .image-editor .app-back {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+        }
+        
+        .piano .app-back {
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+        }
+
+        .drawing .app-back {
+             background: linear-gradient(135deg, #E8E8E8, #A9A9A9);
+        }
+        .game .app-back {
+            background: linear-gradient(135deg, #778899, #708090);
+        }
+        /* Hiệu ứng nhấp nháy */
+        .app-item:nth-child(1) {
+            animation: floatUpDown 4s infinite ease-in-out;
+        }
+        
+        .app-item:nth-child(2) {
+            animation: floatUpDown 4s infinite ease-in-out 0.5s;
+        }
+        
+        .app-item:nth-child(3) {
+            animation: floatUpDown 4s infinite ease-in-out 1s;
+        }
+
+        .app-item:nth-child(4) {
+            animation: floatUpDown 4s infinite ease-in-out 1.5s;
+        }
+
+        .app-item:nth-child(5) {
+            animation: floatUpDown 4s infinite ease-in-out 2s;
+        }
+
+        .menu-link{
+             text-decoration: none;
+        }
+
+        .menu-link .menu-label {
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed .menu-link .menu-label {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .menu-list .menu-link:is(:hover, .active) {
+            color: #fff;
+            background: var(--color-hover-primary);
+        }
+        
+        @keyframes floatUpDown {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Footer */
+        .footer {
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 4rem;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-menu {
+                gap: 2rem;
+            }
+            
+            .app-item {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .title {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .app-menu {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .app-item {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+        }
+    .project-panel {
+      position: static;
+      margin: 40px auto 0;
+      flex-direction: row;
+      justify-content: center;
+      background-color: #f0f8ff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+      max-width: 1000px;
+    }
+
+    .project-panel h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 20px 0 0;
+      text-align: left;
+    }
+
+    .project-links {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    </style>
 </head>
 <body>
-
+  <div class="background-effect" id="bubbles"></div>
   <!-- PROFILE -->
   <section class="main">
     <div class="profile-card">
@@ -47,7 +364,7 @@
       </div>
       <div class="buttons">
         <a href="https://www.facebook.com/huynh.khoa.739161" class="btn" target="_blank">Facebook</a>
-        <a href="#" class="btn" target="_blank">instagram</a>
+        <a href="#" class="btn" target="_blank">Instagram</a>
       </div>
     </div>
   </section>
@@ -93,38 +410,149 @@
     <div class="swiper-button-next"></div>
   </div>
 
-  <!-- LIÊN KẾT ĐẾN CÁC DỰ ÁN GAME -->
-  <div class="project-panel">
-  <h2>🎯 Dự án cá nhân</h2>
-  <div class="project-links">
-    <a href="piano.html" class="btn piano">🎹 Piano</a>
-    <a href="drawing.html" class="btn draw">🎨 Vẽ</a>
-    <a href="hangman.html" class="btn hangman">🎮 Hangman</a>
-    <a href="image_editor.html" class="btn editor">🧩 Image Editor</a>
-    <a href="game.html" class="btn game">🕹 Game</a>
+  <!-- MENU ỨNG DỤNG -->
+  <div class="container">
+    <h1 class="title">ỨNG DỤNG TƯƠNG TÁC</h1>
+
+    <div class="app-menu">
+      <!-- HANGMAN -->
+      <div class="app-item hangman">
+        <div class="app-card">
+          <div class="app-front">
+            <div class="app-icon"><i class="fas fa-skull"></i></div>
+            <div class="app-name">HANGMAN GAME</div>
+          </div>
+          <div class="app-back">
+            <div class="app-description">Trò chơi</div>
+            <a href="hangman.html" class="menu-link"><div class="launch-btn">CHƠI NGAY</div></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- IMAGE EDITOR -->
+      <div class="app-item image-editor">
+        <div class="app-card">
+          <div class="app-front">
+            <div class="app-icon"><i class="fas fa-image"></i></div>
+            <div class="app-name">IMAGE EDITOR</div>
+          </div>
+          <div class="app-back">
+            <div class="app-description">Chỉnh sửa hình ảnh</div>
+            <a href="image_editor.html" class="menu-link"><div class="launch-btn">KHÁM PHÁ</div></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PIANO -->
+      <div class="app-item piano">
+        <div class="app-card">
+          <div class="app-front">
+            <div class="app-icon"><i class="fas fa-music"></i></div>
+            <div class="app-name">PIANO</div>
+          </div>
+          <div class="app-back">
+            <div class="app-description">Chơi piano</div>
+            <a href="piano.html" class="menu-link"><div class="launch-btn">CHƠI NHẠC</div></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- DRAWING -->
+      <div class="app-item drawing">
+        <div class="app-card">
+          <div class="app-front">
+            <div class="app-icon"><i class="fas fa-paint-brush"></i></div>
+            <div class="app-name">DRAWING</div>
+          </div>
+          <div class="app-back">
+            <div class="app-description">Vẽ</div>
+            <a href="drawing.html" class="menu-link"><div class="launch-btn">VẼ</div></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAME -->
+      <div class="app-item game">
+        <div class="app-card">
+          <div class="app-front">
+            <div class="app-icon"><i class="fas fa-gamepad"></i></div>
+            <div class="app-name">GAME</div>
+          </div>
+          <div class="app-back">
+            <div class="app-description">Chơi game</div>
+            <a href="game.html" class="menu-link"><div class="launch-btn">CHƠI GAME</div></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Bấm vào từng ứng dụng để khám phá thêm</p>
+    </div>
   </div>
-</div>
 
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script>
-    new Swiper(".swiper", {
-      slidesPerView: 3,
-      spaceBetween: 30,
-      loop: true,
-      pagination: { el: ".swiper-pagination", clickable: true },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      breakpoints: {
-        0: { slidesPerView: 1 },
-        768: { slidesPerView: 2 },
-        1024: { slidesPerView: 3 },
-      },
+<script>
+  // Swiper Slider
+  new Swiper(".swiper", {
+    slidesPerView: 3,
+    spaceBetween: 30,
+    loop: true,
+    pagination: { el: ".swiper-pagination", clickable: true },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      0: { slidesPerView: 1 },
+      768: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
+    },
+  });
+
+  // Bubbles Background
+  function createBubbles() {
+    const bubblesContainer = document.getElementById('bubbles');
+    const bubbleCount = 20;
+    for (let i = 0; i < bubbleCount; i++) {
+      const bubble = document.createElement('div');
+      bubble.classList.add('bubble');
+      const size = Math.random() * 120 + 20;
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+      bubble.style.left = `${Math.random() * 100}%`;
+      bubble.style.top = `${100 + Math.random() * 20}%`;
+      const duration = Math.random() * 20 + 15;
+      bubble.style.animationDuration = `${duration}s`;
+      bubble.style.animationDelay = `${Math.random() * 10}s`;
+      bubblesContainer.appendChild(bubble);
+    }
+  }
+
+  // App Click Effect
+  document.querySelectorAll('.app-item').forEach(item => {
+    item.addEventListener('click', function() {
+      this.classList.add('clicked');
+      const ripple = document.createElement('div');
+      ripple.classList.add('ripple');
+      this.appendChild(ripple);
+      setTimeout(() => {
+        ripple.remove();
+        this.classList.remove('clicked');
+      }, 1000);
     });
-  </script>
+  });
+
+  // On Page Load
+  window.addEventListener('load', () => {
+    createBubbles();
+    const title = document.querySelector('.title');
+    setTimeout(() => {
+      title.style.transform = 'scale(1.05)';
+      title.style.transition = 'transform 0.5s ease-in-out';
+    }, 1000);
+  });
+</script>
 </body>
 </html>
-
-
